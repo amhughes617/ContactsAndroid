@@ -16,9 +16,10 @@ public class Main2Activity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
+        Contact contact = (Contact) getIntent().getExtras().get("Contact");
 
         contactView = (TextView) findViewById(R.id.contactView);
-        contactView.setText(MainActivity.contact);
+        contactView.setText(contact.toString());
 
     }
 }

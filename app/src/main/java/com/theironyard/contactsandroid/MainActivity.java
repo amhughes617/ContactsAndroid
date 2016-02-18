@@ -1,6 +1,7 @@
 package com.theironyard.contactsandroid;
 
 import android.content.Intent;
+import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -10,13 +11,15 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemLongClickListener, AdapterView.OnItemClickListener {
-    static String contact;
-    ArrayAdapter<String> items;
 
-    static ListView list;
+
+    ArrayAdapter<Contact> items;
+
+    ListView list;
     EditText nameText;
     EditText phoneText;
     Button addButton;
@@ -31,7 +34,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         phoneText = (EditText) findViewById(R.id.editPhone);
         addButton = (Button) findViewById(R.id.addButton);
 
-        items = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1);
+        items = new ArrayAdapter<Contact>(this, android.R.layout.simple_list_item_1);
         list.setAdapter(items);
 
         addButton.setOnClickListener(this);
@@ -53,7 +56,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             phoneText.setText("");
         }
         if ( !nameText.getText().toString().isEmpty() && !phoneText.getText().toString().isEmpty()) {
-            items.add(String.format("%s(%s)", name, phone));
+            items.add(new Contact(name, phone));
         }
         nameText.setText("");
         phoneText.setText("");
@@ -61,15 +64,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-        String item = items.getItem(position);
+        Contact item = items.getItem(position);
         items.remove(item);
         return true;
     }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        contact = items.getItem(position);
+        Contact contact = items.getItem(position);
         Intent intent = new Intent(MainActivity.this, Main2Activity.class); //saw this on treehouse.com
+        intent.putExtra("Contact", (Parcelable) contact);
         startActivity(intent);
     }
 }
