@@ -43,7 +43,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         String name = nameText.getText().toString();
         String phone = phoneText.getText().toString();
-        if ( !nameText.getText().toString().isEmpty() && !nameText.getText().toString().isEmpty()) {
+        if (phone.length() == 10) {
+            phone = String.format("%s-%s-%s", phone.substring(0, 3), phone.substring(3, 6), phone.substring(6));
+        }
+        else if (phone.length() == 7) {
+            phone = String.format("%s-%s", phone.substring(0, 3), phone.substring(3));
+        }
+        else {
+            phoneText.setText("");
+        }
+        if ( !nameText.getText().toString().isEmpty() && !phoneText.getText().toString().isEmpty()) {
             items.add(String.format("%s(%s)", name, phone));
         }
         nameText.setText("");
